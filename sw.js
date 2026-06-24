@@ -25,7 +25,13 @@ self.addEventListener('fetch', e => {
     e.respondWith(
       fetch(e.request)
         .then(res => {
-          if (res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
+          // Clone immediately — if we wait until inside the caches.open().then(), the
+          // browser may have already started reading the body we're about to return,
+          // and clone() throws once the body stream has been disturbed.
+          if (res.ok) {
+            const copy = res.clone();
+            caches.open(CACHE).then(c => c.put(e.request, copy));
+          }
           return res;
         })
         .catch(() => caches.match(new URL('index.html', self.registration.scope)))
@@ -38,7 +44,10 @@ self.addEventListener('fetch', e => {
     caches.match(e.request).then(cached => {
       if (cached) return cached;
       return fetch(e.request).then(res => {
-        if (res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
+        if (res.ok) {
+          const copy = res.clone();
+          caches.open(CACHE).then(c => c.put(e.request, copy));
+        }
         return res;
       });
     })
