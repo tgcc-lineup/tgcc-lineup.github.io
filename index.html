@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>TGCC Line-up</title>
+    <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
+    <style id="expo-reset">
+      body { background: #0d0f14; }
+      #splash {
+        position: fixed; inset: 0; background: #0d0f14;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        z-index: 9999; transition: opacity 0.3s ease;
+      }
+      #splash.hidden { opacity: 0; pointer-events: none; }
+      .splash-ring {
+        width: 40px; height: 40px; border-radius: 50%;
+        border: 3px solid #2a2d35; border-top-color: #f5c842;
+        animation: spin 0.8s linear infinite;
+      }
+      .splash-text { margin-top: 16px; color: #9ca3af; font-family: sans-serif; font-size: 13px; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      /* These styles make the body full-height */
+      html,
+      body {
+        height: 100%;
+      }
+      /* These styles disable body scrolling if you are using <ScrollView> */
+      body {
+        overflow: hidden;
+      }
+      /* These styles make the root element full-height */
+      #root {
+        display: flex;
+        height: 100%;
+        flex: 1;
+      }
+    </style>
+    <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js', { scope: '/' });
+      });
+    }
+  </script>
+</head>
+
+  <body>
+    <!-- Use static rendering with Expo Router to support running without JavaScript. -->
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <!-- The root element for your Expo app. -->
+    <div id="splash">
+    <div class="splash-ring"></div>
+    <div class="splash-text">Loading TGCC Line-up…</div>
+  </div>
+  <div id="root"></div>
+  <script src="/_expo/static/js/web/index-e5d5816f30a8a5f1d7d9a181efc4f42e.js" defer></script>
+  <script>
+    var _t = setInterval(function() {
+      if (document.getElementById('root').children.length > 0) {
+        clearInterval(_t);
+        var s = document.getElementById('splash');
+        if (s) { s.classList.add('hidden'); setTimeout(function(){ s.remove(); }, 350); }
+      }
+    }, 50);
+  </script>
+</body>
+</html>
