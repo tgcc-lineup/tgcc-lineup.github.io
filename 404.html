@@ -58,6 +58,11 @@
   </div>
   <div id="root"></div>
   <script src="/_expo/static/js/web/index-e5d5816f30a8a5f1d7d9a181efc4f42e.js" defer></script>
+  <div id="crash-overlay" style="display:none;position:fixed;inset:0;background:#0d0f14;z-index:10000;flex-direction:column;align-items:center;justify-content:center;font-family:sans-serif;color:#9ca3af;text-align:center;padding:24px;">
+    <div style="color:#f5c842;font-size:15px;font-weight:600;margin-bottom:8px;">Something went wrong</div>
+    <div style="font-size:13px;margin-bottom:16px;">The app hit an error and couldn't continue.</div>
+    <button onclick="window.location.reload()" style="background:#f5c842;color:#1f2937;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;">Reload</button>
+  </div>
   <script>
     var _t = setInterval(function() {
       if (document.getElementById('root').children.length > 0) {
@@ -66,6 +71,14 @@
         if (s) { s.classList.add('hidden'); setTimeout(function(){ s.remove(); }, 350); }
       }
     }, 50);
+    function _showCrash() {
+      var c = document.getElementById('crash-overlay');
+      if (c) c.style.display = 'flex';
+      var s = document.getElementById('splash');
+      if (s) s.style.display = 'none';
+    }
+    window.addEventListener('error', _showCrash);
+    window.addEventListener('unhandledrejection', _showCrash);
   </script>
 </body>
 </html>

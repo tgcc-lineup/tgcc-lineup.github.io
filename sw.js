@@ -18,11 +18,16 @@ self.addEventListener('fetch', e => {
   // Only cache same-origin GET requests
   if (e.request.method !== 'GET' || url.origin !== self.location.origin) return;
 
-  // Network-first for HTML (always get fresh shell)
+  // Network-first for HTML (always get fresh shell). GitHub Pages serves deep links
+  // (e.g. /library) via 404.html with an HTTP 404 status but a valid app shell body —
+  // that's expected and must not be treated as a failure or cached as an error page.
   if (e.request.mode === 'navigate') {
     e.respondWith(
       fetch(e.request)
-        .then(res => { caches.open(CACHE).then(c => c.put(e.request, res.clone())); return res; })
+        .then(res => {
+          if (res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
+          return res;
+        })
         .catch(() => caches.match(new URL('index.html', self.registration.scope)))
     );
     return;
