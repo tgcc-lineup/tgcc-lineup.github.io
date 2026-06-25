@@ -37,7 +37,8 @@
         flex: 1;
       }
     </style>
-    <script>
+    <link rel="icon" type="image/jpeg" href="/favicon.jpg">
+  <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js', { scope: '/' });
